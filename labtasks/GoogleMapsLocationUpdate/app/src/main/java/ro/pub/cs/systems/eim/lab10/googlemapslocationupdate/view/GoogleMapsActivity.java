@@ -1,6 +1,7 @@
 package ro.pub.cs.systems.eim.lab10.googlemapslocationupdate.view;
 
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import java.lang.SecurityException;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -269,26 +271,59 @@ public class GoogleMapsActivity extends AppCompatActivity implements GoogleApiCl
     private void startLocationUpdates() {
 
         // TODO exercise 7a
-        // invoke the requestLocationUpdates() method from FusedLocationProviderApi class
-        // enable the locationUpdatesStatus
-        // enable the current location on Google Map
-        // update the locationUpdatesStatusButton text & color
-        // navigate to current position (lastLocation), if available
-        // disable the latitudeEditText, longitudeEditText, navigateToLocationButton widgets
-        // the whole routine should be put in a try ... catch block for SecurityExeption
+        try {
+            // invoke the requestLocationUpdates() method from FusedLocationProviderApi class
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                    googleApiClient,
+                    locationRequest,
+                    this
+            );
+            // enable the locationUpdatesStatus
+            locationUpdatesStatus = true;
+            // enable the current location on Google Map
+            googleMap.setMyLocationEnabled(true);
+            // update the locationUpdatesStatusButton text & color
+            locationUpdatesStatusButton.setText(getResources().getString(R.string.stop_location_updates));
+            locationUpdatesStatusButton.setBackgroundColor(Color.GREEN);
+            // navigate to current position (lastLocation), if available
+            if (lastLocation != null) {
+                navigateToLocation(lastLocation);
+            }
+            // disable the latitudeEditText, longitudeEditText, navigateToLocationButton widgets
+            latitudeEditText.setEnabled(false);
+            longitudeEditText.setEnabled(false);
+            navigateToLocationButton.setEnabled(false);
+            // the whole routine should be put in a try ... catch block for SecurityExeption
+        }catch (SecurityException e) {
+            e.printStackTrace(System.out);
+        }
 
     }
 
     private void stopLocationUpdates() {
 
         // TODO exercise 7b
-        // invoke the removeLocationUpdates() method from FusedLocationProviderApi class
-        // disable the locationUpdatesStatus
-        // disable the current location on Google Map
-        // update the locationUpdatesStatusButton text & color
-        // enable the latitudeEditText, longitudeEditText, navigateToLocationButton widgets	and reset their content
-        // the whole routine should be put in a try ... catch block for SecurityExeption
-
+        try {
+            // invoke the removeLocationUpdates() method from FusedLocationProviderApi class
+            LocationServices.FusedLocationApi.removeLocationUpdates(
+                    googleApiClient,
+                    this
+            );
+            // disable the locationUpdatesStatus
+            locationUpdatesStatus = false;
+            // disable the current location on Google Map
+            googleMap.setMyLocationEnabled(false);
+            // update the locationUpdatesStatusButton text & color
+            locationUpdatesStatusButton.setText(getResources().getString(R.string.start_location_updates));
+            locationUpdatesStatusButton.setBackgroundColor(Color.RED);
+            // enable the latitudeEditText, longitudeEditText, navigateToLocationButton widgets	and reset their content
+            latitudeEditText.setEnabled(true);
+            longitudeEditText.setEnabled(true);
+            navigateToLocationButton.setEnabled(true);
+            // the whole routine should be put in a try ... catch block for SecurityExeption
+        }catch (SecurityException e) {
+            e.printStackTrace(System.out);
+        }
     }
 
     @Override

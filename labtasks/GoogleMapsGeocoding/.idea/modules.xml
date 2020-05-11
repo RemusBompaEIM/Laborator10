@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GoogleMapsGeocoding.iml" filepath="$PROJECT_DIR$/GoogleMapsGeocoding.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GoogleMapsGeocoding.iml" filepath="$PROJECT_DIR$/GoogleMapsGeocoding.iml" group="GoogleMapsGeocoding" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="GoogleMapsGeocoding/app" />
     </modules>
   </component>
 </project>
